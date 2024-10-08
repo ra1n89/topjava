@@ -15,6 +15,7 @@
 </head>
 <body>
 <button onclick="window.location.href='addMeal'">Add meal</button>
+<button onclick="window.location.href='meals'">Update information</button>
 <br>
     <table border="1">
         <tr>

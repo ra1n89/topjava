@@ -7,7 +7,7 @@ import java.io.IOException;
 public class AddMealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("addMeal.jsp");
+        request.getRequestDispatcher("/addMeal.jsp").forward(request, response);
     }
 
     @Override
