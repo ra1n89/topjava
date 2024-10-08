@@ -14,6 +14,8 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 </head>
 <body>
+<button onclick="window.location.href='addMeal'">Add meal</button>
+<br>
     <table border="1">
         <tr>
             <th>DATE</th>
