@@ -32,7 +32,7 @@ public class MealServlet extends HttpServlet {
 //    );
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("d" + meals);
+
         List<MealTo> mealTos = MealsUtil.filteredByStreamsWithoutFilterByTime(meals, caloriesPerDay);
         req.setAttribute("meals", mealTos);
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);

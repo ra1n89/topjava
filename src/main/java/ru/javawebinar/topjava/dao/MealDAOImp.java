@@ -14,16 +14,25 @@ public class MealDAOImp implements MealDAO {
     public void addMeal(LocalDateTime localDateTime, String description, int calories) {
         id = id + 1;
         meals.add(new Meal(id, localDateTime, description,  calories  ));
-        System.out.println(meals);
     }
 
     @Override
-    public void updateMeal() {
-
+    public void updateMeal(int id, LocalDateTime localDateTime, String description, int calories) {
+        meals.set(meals.indexOf(findById(id)), new Meal(id, localDateTime, description,  calories));
     }
 
     @Override
-    public void deleteMeal() {
+    public void deleteMeal(int id) {
 
+        meals.remove(findById(id));
+    }
+
+    public Meal findById(int id){
+        for (Meal meal: meals){
+            if(meal.getId()==id){
+                return meal;
+            }
+        }
+        return null;
     }
 }

@@ -45,4 +45,24 @@
         <servlet-name>Adding</servlet-name>
         <url-pattern>/adding</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Deleting</servlet-name>
+        <servlet-class>ru.javawebinar.topjava.web.Deleting</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Deleting</servlet-name>
+        <url-pattern>/deleting</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Updating</servlet-name>
+        <servlet-class>ru.javawebinar.topjava.web.Updating</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Updating</servlet-name>
+        <url-pattern>/updating</url-pattern>
+    </servlet-mapping>
 </web-app>

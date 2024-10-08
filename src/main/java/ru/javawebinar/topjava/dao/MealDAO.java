@@ -7,9 +7,9 @@ public interface MealDAO {
 
         void addMeal(LocalDateTime localDateTime, String description, int calories);
 
-        void updateMeal();
+        void updateMeal(int id, LocalDateTime localDateTime, String description, int calories);
 
-        void deleteMeal();
+        void deleteMeal(int id);
 
 
 

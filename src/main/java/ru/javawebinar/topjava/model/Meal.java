@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 public class Meal {
 
-    private static int id;
+    private  final int id;
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -40,7 +40,7 @@ public class Meal {
         return dateTime.toLocalTime();
     }
 
-    public static int getId() {
+    public  int getId() {
         return id;
     }
 }
