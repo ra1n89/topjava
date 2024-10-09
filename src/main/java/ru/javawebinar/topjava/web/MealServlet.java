@@ -1,13 +1,11 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
-import ru.javawebinar.topjava.dao.MealDao;
 import ru.javawebinar.topjava.dao.InMemoryMealDao;
+import ru.javawebinar.topjava.dao.MealDao;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -23,7 +20,9 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MealServlet extends HttpServlet {
 
     private static final Logger log = getLogger(UserServlet.class);
+
     final static int caloriesPerDay = 2000;
+
     private MealDao mealDao;
 
     public void init() throws ServletException {
@@ -74,7 +73,7 @@ public class MealServlet extends HttpServlet {
             req.setAttribute("meals", mealTos);
             req.getRequestDispatcher("/meals.jsp").forward(req, resp);
         } else if (action.equals("add")) {
-            int id = mealDao.increaseId();
+            int id = mealDao.getId();
             mealDao.add(new Meal (id, dateTime, description, calories));
             resp.sendRedirect(req.getContextPath() + "/meals");
         } else if (action.equals("update")) {
