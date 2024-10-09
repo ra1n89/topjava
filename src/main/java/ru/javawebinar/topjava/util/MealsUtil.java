@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public static void main(String[] args) {}
-
     public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(

@@ -5,17 +5,21 @@ import ru.javawebinar.topjava.model.Meal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MealDaoInMemory implements MealDao {
+public class InMemoryMealDao implements MealDao {
+
 
     private List<Meal> meals =  new ArrayList<>();
 
     private AtomicInteger atomicInt = new AtomicInteger(0);
 
-    public MealDaoInMemory() {
+
+
+    public InMemoryMealDao() {
         add(new Meal(1, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500));
         add(new Meal(2, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000));
         add(new Meal(3, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500));
@@ -26,13 +30,18 @@ public class MealDaoInMemory implements MealDao {
     }
 
     @Override
-    public void add(Meal meal) {
+    public Meal add(Meal meal) {
+
         meals.add(meal);
+        return meal;
     }
 
     @Override
-    public void update(int index, Meal meal) {
+    public Meal update(Meal meal) {
+
+        int index = meals.indexOf(findById(meal.getId()));
         meals.set(index, meal);
+        return meal;
     }
 
     @Override
@@ -49,8 +58,8 @@ public class MealDaoInMemory implements MealDao {
         return null;
     }
 
-    public List<Meal> getMeals() {
-        return meals;
+    public List<Meal> getAll() {
+        return new ArrayList<>(meals);
     }
 
     public int increaseId() {

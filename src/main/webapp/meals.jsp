@@ -8,11 +8,10 @@
 </head>
 <body>
 <button onclick="window.location.href='meals?action=add'">Add meal</button>
-<button onclick="window.location.href='meals'">Update information</button>
 <br>
 <table border="1">
     <tr>
-        <th>Id</th>
+
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
@@ -21,8 +20,8 @@
     </tr>
     <c:forEach var="meal" items="${meals}">
 
-            <tr style="color:${meal.isExcess()==false ? 'green' : 'red'}">
-                <td>${meal.getId()}</td>
+            <tr style="color:${!(meal.isExcess()) ? 'green' : 'red'}">
+
                 <td>${DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(meal.getDateTime())}</td>
                 <td>${meal.getDescription()}</td>
                 <td>${meal.getCalories()}</td>

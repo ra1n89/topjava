@@ -8,17 +8,17 @@ Adding meal
 <br>
 <br>
 <form  action="meals?action=add" method="post">
-    <label>NAME:
+    <label>Name:
         <input type="datetime-local" name="date">
     </label>
     <br>
     <br>
-    <label>DESCRIPTION:
+    <label>Description:
         <input type="text" name="description">
     </label>
     <br>
     <br>
-    <label>CALORIES:
+    <label>Calories:
         <input type="number" min="0" name="calories">
     </label>
     <br>
