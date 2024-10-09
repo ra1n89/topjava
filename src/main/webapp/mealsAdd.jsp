@@ -1,20 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: prora
-  Date: 08.10.2024
-  Time: 18:37
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>AddMeal</title>
+    <title>mealAdd</title>
 </head>
 <body>
 Adding meal
 <br>
 <br>
-<form action="adding" method="post">
+<form  action="meals?action=add" method="post">
     <label>NAME:
         <input type="datetime-local" name="date">
     </label>
