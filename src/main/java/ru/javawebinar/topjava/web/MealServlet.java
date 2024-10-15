@@ -5,22 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.Role;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.inmemory.InMemoryMealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.web.meal.MealRestController;
-import ru.javawebinar.topjava.web.user.AdminRestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class MealServlet extends HttpServlet {
@@ -30,12 +27,8 @@ public class MealServlet extends HttpServlet {
 
     @Override
     public void init() {
+        log.info("init of {}", this.getServletName());
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-            AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
-            MealRestController mealRestController = appCtx.getBean(MealRestController.class);
-            System.out.println(mealRestController.getAll());
-            adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ADMIN));
             repository = appCtx.getBean(InMemoryMealRepository.class);
         }
     }
@@ -43,37 +36,55 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
-        String role = request.getParameter("role");
+        log.info("doPost of {}", this.getServletName());
+        //String role = request.getParameter("role");
         String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id), LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"), Integer.parseInt(request.getParameter("calories")), 111);
+                request.getParameter("description"), Integer.parseInt(request.getParameter("calories")), 0);
         log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(meal, 111);
+        repository.save(meal, 1);
         response.sendRedirect("meals");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        log.info("doGet of {}", this.getServletName());
         String action = request.getParameter("action");
 
         switch (action == null ? "all" : action) {
             case "delete":
+                log.info("delete");
                 int id = getId(request);
                 log.info("Delete id={}", id);
-                repository.delete(id, 111);
+                repository.delete(id, 1);
                 response.sendRedirect("meals");
                 break;
             case "create":
+                log.info("create");
             case "update":
+                log.info("update");
                 final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES),
-                        "", 1000, 111) : repository.get(getId(request), 111);
+                        "", 1000, 1) : repository.get(getId(request), 1);
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
+                break;
+            case "filter":
+                log.info("filter");
+                LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
+                LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
+                LocalTime startTime = LocalTime.parse(request.getParameter("startTime"));
+                LocalTime endTime = LocalTime.parse(request.getParameter("endTime"));
+                LocalDateTime startDateTime = startDate.atTime(startTime);
+                LocalDateTime endDateTime = endDate.atTime(endTime);
+                log.info("startDate: {}, endDate: {}, startTime: {}, endTime: {} ", startDate, endDate, startTime, endTime);
+                request.setAttribute("meals", MealsUtil.getFilteredTos(repository.getAll(1), MealsUtil.DEFAULT_CALORIES_PER_DAY, startTime, endTime));
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                log.info("filter finished");
                 break;
             case "all":
             default:
                 log.info("getAll");
-                request.setAttribute("meals", MealsUtil.getTos(repository.getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY));
+                request.setAttribute("meals", MealsUtil.getTos(repository.getAll(1), MealsUtil.DEFAULT_CALORIES_PER_DAY));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }

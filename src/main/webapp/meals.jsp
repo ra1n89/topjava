@@ -20,8 +20,20 @@
 <section>
     <h3><a href="index.html">Home</a></h3>
     <hr/>
-
     <h2>Meals</h2>
+    <form id="filter" method="get" action="${pageContext.request.contextPath}/meals?action=filter">
+        <input class="form-control" name="action"  type="text" value="filter" hidden="hidden">
+        <label for="startDate">From date</label>
+        <input class="form-control" name="startDate" id="startDate" type="date">
+        <label for="endDate">To date</label>
+        <input class="form-control" name="endDate" id="endDate" type="date">
+        <label for="startTime">From time</label>
+        <input class="form-control" name="startTime" id="startTime" type="time">
+        <label for="endTime">To time</label>
+        <input class="form-control" name="endTime" id="endTime" type="time">
+        <button type="submit">Filter</button>
+    </form>
+    <br><br>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">

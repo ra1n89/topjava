@@ -1,17 +1,18 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.util.Collection;
 
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class MealService {
 
+    @Autowired
     private MealRepository repository;
 
     public MealService(MealRepository repository) {
@@ -19,7 +20,7 @@ public class MealService {
     }
 
     public Meal create(Meal meal, int userId) {
-        return checkNotFound(repository.save(meal, userId), "dd");
+        return repository.save(meal, userId);
     }
 
     public void delete(int id, int userId) {
@@ -30,8 +31,8 @@ public class MealService {
         return checkNotFoundWithId(repository.get(id, userId), userId);
     }
 
-    public Collection<Meal> getAll() {
-        return repository.getAll();
+    public Collection<Meal> getAll(int userId) {
+        return repository.getAll(userId);
     }
 
     public void update(Meal meal, int userId) {
